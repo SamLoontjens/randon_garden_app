@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Garden</title>
+    <!-- Add any additional CSS or JS here -->
+    <style>
+        .color-button {
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .white-black { background-color: white; }
+        .black-white { background-color: black; color: white; }
+        .dark-light { background-color: #333; color: lightgray; }
+    </style>
+    <script>
+        // Function to change color and save the selection in local storage
+        function changeColor(bgColor, textColor) {
+            document.body.style.backgroundColor = bgColor;
+            document.body.style.color = textColor;
+            localStorage.setItem('bgColor', bgColor);
+            localStorage.setItem('textColor', textColor);
+        }
+
+        // Function to load the saved color scheme from local storage
+        function loadColorScheme() {
+            const bgColor = localStorage.getItem('bgColor') || '#333'; // Default to dark background if not set
+            const textColor = localStorage.getItem('textColor') || 'lightgray'; // Default to light text if not set
+            document.body.style.backgroundColor = bgColor;
+            document.body.style.color = textColor;
+        }
+
+        // Call loadColorScheme when the page loads
+        document.addEventListener("DOMContentLoaded", loadColorScheme);
+    </script>
+</head>
+<body>
+    <button class="color-button white-black" onclick="changeColor('white', 'black')"></button>
+    <button class="color-button black-white" onclick="changeColor('black', 'white')"></button>
+    <button class="color-button dark-light" onclick="changeColor('#333', 'lightgray')"></button>
+    <h1>Welcome to the Random Garden</h1>
+    <form action="/" method="post">
+        <label for="seed">Enter seed (optional):</label>
+        <input type="text" id="seed" name="seed" value="{{ form_data.seed }}"><br>
+
+        <label for="draw_height">Draw Height:</label>
+        <input type="number" id="draw_height" name="draw_height" value="{{ form_data.draw_height }}"><br>
+
+        <label for="draw_width">Draw Width:</label>
+        <input type="number" id="draw_width" name="draw_width" value="{{ form_data.draw_width }}"><br>
+
+        <label for="weather">Weather:</label>
+        <select id="weather" name="weather">
+            <option value="day" {% if form_data.weather == 'day' %}selected{% endif %}>Day</option>
+            <option value="night" {% if form_data.weather == 'night' %}selected{% endif %}>Night</option>
+            <option value="rain" {% if form_data.weather == 'rain' %}selected{% endif %}>Rain</option>
+            <option value="snow" {% if form_data.weather == 'snow' %}selected{% endif %}>Snow</option>
+        </select><br>
+
+        <input type="submit" value="Generate Garden">
+    </form>
+
+    <pre>{{ garden_art | safe }}</pre> <!-- Display ASCII art here -->
+
+    {% if displayed_seed %}
+    <p>Used Seed: {{ displayed_seed }}</p>
+    {% endif %}
+
+    {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
+
+    <!-- Footer with Author List -->
+    <footer style="margin-top: 20px; padding: 10px;">
+        <h1>Credits</h1>
+        <h3>Artists</h3>
+        <ul style="list-style: none; padding: 0;">
+            <li>Retrieved from: https://www.asciiart.eu/</li>
+            <li>Joan G. Stark (jgs)</li>
+            <li>Hayley Jane Wakenshaw (hjw)</li>
+            <li>Max Strandberg</li>
+            <li>Morfina</li>
+            <li>ejm, ejm97, ejm98</li>
+            <li>dwb</li>
+            <li>mic</li>
+            <li>Lukasz Tyrala</li>
+            <li>Stephen CES Wilson</li>
+            <li>LGB</li>
+            <li>Shanaka Dias</li>
+            <li>jjs</li>
+            <li>kat</li>
+            <li>MT</li>
+            <li>Sam Loontjens</li>
+            <li></li>
+            <li></li>
+            <li></li>
+
+            <!-- Add more authors as needed -->
+        </ul>
+
+        <h3>Inspiration</h3>
+        <ul style="list-style: none; padding: 0;">
+            <li>Nik Woning</li>
+        </ul>
+
+        <!-- ASCII Art of Your Name -->
+        <h3>Creator</h3>
+        <pre>{{ ascii_art_name }}</pre>
+        
+        <h3>Github</h3>
+        <ul style="list-style: none; padding: 0;">
+            <li>https://github.com/SamLoontjens/randon_garden_app</li>
+            <li>https://github.com/SamLoontjens/randon_garden</li>
+        </ul>
+
+    </footer>
+</body>
+</html>
