@@ -61,13 +61,18 @@ def index():
     # Read ASCII art from file
     with open('ascii-text-art.txt', 'r') as file:
         ascii_art_name = file.read()
+    
+    # Read banner from file
+    with open('banner.txt', 'r') as file:
+        banner = file.read()
         
     return render_template('index.html', 
                            garden_art=garden_art, 
                            error_message=error_message, 
                            form_data=form_data, 
                            displayed_seed=displayed_seed,
-                           ascii_art_name=ascii_art_name)
+                           ascii_art_name=ascii_art_name,
+                           banner=banner)
 
 if __name__ == '__main__':
     app.run(debug=True)
